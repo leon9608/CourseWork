@@ -1,0 +1,47 @@
+package com.company;
+
+import org.junit.Before;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by Yuyang on 13/2/2017.
+ */
+public class FunctionTest {
+    private Layout siebel;
+    private Layout badSiebelMap;
+    private Function helper = new Function();
+
+    @Before
+    public void setUpLayout() {
+        MagicGson gson = new MagicGson();
+        siebel = gson.jsonToLayout(testcase.siebel);
+        badSiebelMap = gson.jsonToLayout(testcase.badMap);
+    }
+
+
+    @org.junit.Test
+    public void getTargetDirection() throws Exception {
+        String expectedDirection = "southwest";
+        String instruction = "go southwest";
+        assertEquals(expectedDirection,helper.getTargetDirection(instruction));
+
+    }
+
+    @org.junit.Test
+    public void isValidExit() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void isValidInput() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void isValidLayout() throws Exception {
+        assertTrue(helper.isValidLayout(siebel));
+        assertFalse(helper.isValidLayout(badSiebelMap));
+    }
+
+}

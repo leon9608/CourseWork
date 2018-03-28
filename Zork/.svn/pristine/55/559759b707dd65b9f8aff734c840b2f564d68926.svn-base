@@ -1,0 +1,32 @@
+package com.company;
+
+import java.util.Arrays;
+
+/**
+ * Created by Yuyang on 11/2/2017.
+ */
+public class Layout {
+    private String initialRoom;
+    private Room[] rooms;
+
+    public Room[] getRooms() {
+        return rooms;
+    }
+
+    public String getInitialRoom() {
+        return initialRoom;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Layout layout = (Layout) o;
+
+        if (!initialRoom.equals(layout.initialRoom)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(rooms, layout.rooms);
+    }
+
+}

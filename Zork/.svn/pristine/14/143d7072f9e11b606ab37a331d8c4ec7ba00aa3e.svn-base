@@ -1,0 +1,67 @@
+package com.company;
+
+/**
+ * Created by Yuyang on 12/2/2017.
+ */
+public class Function {
+
+
+    public String getTargetDirection(String instruction) {
+        String[] instructionArray = instruction.split(" ");
+        return instructionArray[1];
+    }
+
+    public boolean isValidExit(String instruction) {
+
+        if (instruction.equalsIgnoreCase("exit")
+                || instruction.equalsIgnoreCase("quit")
+                || instruction.equalsIgnoreCase("done")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidInput(String instruction, Room currentRoom) {
+        String[] instructionArray = instruction.split(" ");
+
+        // find invalid input and print appropriate response
+        try {
+            if (instructionArray.length == 0) {
+                throw new Exception("Please enter a valid direction.");
+            }
+            if (instructionArray.length == 1) {
+                if (isValidExit(instructionArray[0])) {
+                    return true;
+                } else {
+                    throw new Exception("Please enter a valid instruction.");
+                }
+            }
+            if (instructionArray[0].equalsIgnoreCase("go")) {
+                if (instructionArray.length == 2 && currentRoom.haveAccess(instructionArray[1]))
+                    return true;
+                else throw new Exception("I can't " + instruction);
+            } else {
+                throw new Exception("I don't understand " + instruction);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isValidLayout(Layout testLayout) {
+        Room[] testrooms = testLayout.getRooms();
+        int numberOfRooms = testrooms.length;
+
+        for (int initialRoomIdx = 0; initialRoomIdx < numberOfRooms; initialRoomIdx++) {
+            for (int targetRoomIdx = initialRoomIdx + 1; targetRoomIdx < numberOfRooms; targetRoomIdx++) {
+                if (testrooms[initialRoomIdx].containsRoom(testrooms[targetRoomIdx]) &&
+                        !testrooms[targetRoomIdx].containsRoom(testrooms[initialRoomIdx])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}

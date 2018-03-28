@@ -1,0 +1,45 @@
+package com.company;
+
+
+import java.util.HashMap;
+
+public class Main {
+
+    public static void main(String[] args) {
+        TextIO.putln("Hello. Welcome to the Zork. You will start your adventure.");
+        runTheGame(args);
+    }
+
+    private static void runTheGame(String[] args) {
+        MagicGson makeLifeEasy = new MagicGson();
+        Layout siebel = makeLifeEasy.createMap(args);
+
+        if(siebel != null) {
+            HashMap<String, Room> siebelMap = new HashMap<>();
+            for (Room room : siebel.getRooms()) {
+                siebelMap.put(room.getName(), room);
+            }
+
+            Room.currentLocation = siebelMap.get(siebel.getInitialRoom());
+            Function helper = new Function();
+            boolean isValidLayout = helper.isValidLayout(siebel);
+            while (isValidLayout) {
+                System.out.println(Room.currentLocation.getFullInstruction());
+                TextIO.skipBlanks();
+                String instruction = TextIO.getln();
+                if (helper.isValidInput(instruction, Room.currentLocation)) {
+                    if (helper.isValidExit(instruction)) {
+                        break;
+                    } else {
+                        String targetDirection = helper.getTargetDirection(instruction);
+                        Room.currentLocation = siebelMap.get(Room.currentLocation.getNextRoom(targetDirection));
+                    }
+                }
+            }
+            System.out.println("Bye bye!");
+        }
+    }
+
+
+}
+

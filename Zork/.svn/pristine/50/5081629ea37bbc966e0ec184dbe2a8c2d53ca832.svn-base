@@ -1,0 +1,17 @@
+package com.company;
+
+/**
+ * Created by Yuyang on 11/2/2017.
+ */
+public class Layout {
+    private String initialRoom;
+    private Room[] rooms;
+
+    public Room[] getRooms() {
+        return rooms;
+    }
+
+    public String getInitialRoom() {
+        return initialRoom;
+    }
+}
